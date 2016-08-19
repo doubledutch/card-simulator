@@ -1,0 +1,19 @@
+{
+  "name": "Project",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "react-native start",
+    "clean": "rm -rf node_modules/dd-*"
+  },
+  "dependencies": {
+    "dd-ddview": "file:///Users/nicholasclark/Documents/react-native-cards/dist/components/ddview",
+    "dd-dimensions": "file:///Users/nicholasclark/Documents/react-native-cards/dist/components/dimensions",
+    "dd-feed": "file:///Users/nicholasclark/Documents/react-native-cards/dist/components/feed",
+    "dd-nativemodules": "file:///Users/nicholasclark/Documents/react-native-cards/dist/components/nativemodules",
+    "react-addons-update": "^15.3.1",
+    "react-native": "^0.27.2",
+    "react-native-fs": "^1.5.1",
+    "rm-local-modules": "0.0.1"
+  }
+}
