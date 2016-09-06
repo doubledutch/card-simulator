@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import ReactNative from 'react-native';
-var RNFS = require('react-native-fs')
+//var RNFS = require('react-native-fs')
 const DD = ReactNative.NativeModules.DDBindings
 
-const feedDataPath = RNFS.DocumentDirectoryPath + '/feed.json'
-const feedTemplatePath = RNFS.DocumentDirectoryPath + '/feed-templates.json'
+// const feedDataPath = RNFS.DocumentDirectoryPath + '/feed.json'
+// const feedTemplatePath = RNFS.DocumentDirectoryPath + '/feed-templates.json'
 const cardsBaseURL = "https://stroom.doubledutch.me/api/cards"
 const templatesBaseURL = "https://stroom.doubledutch.me/api/templates"
 

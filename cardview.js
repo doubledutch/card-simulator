@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import ReactNative from 'react-native';
 import Update from 'react-addons-update'
-import './ReactotronConfig'
-import Reactotron from 'reactotron-react-native'
 import CardViewAPI from './cardview.api'
 
 React.addons = { update : Update }
@@ -24,7 +22,7 @@ class CardView extends Component {
       var [cards, templateLoaders] = data
       var templates = {}
       templateLoaders.forEach((t) => {
-        var Template = t.loadTemplate(React, ReactNative, { Feed, FeedCardWrapper, GET_CARD_WIDTH, CARD_MARGIN }, DD)
+        var { Template } = t.loadTemplate(React, ReactNative, { Feed, FeedCardWrapper, GET_CARD_WIDTH, CARD_MARGIN }, DD)
         templates[t.id] = (id, data) => {
           return <Template data={data} onDismiss={self.onDismissCard.bind(self, id) } onUpdate={self.onUpdateCard.bind(self, id) } onLog={self.onLogMetric.bind(self, id) } />
         }
