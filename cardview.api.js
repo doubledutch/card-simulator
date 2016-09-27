@@ -9,10 +9,10 @@ const cardsBaseURL = "https://stroom.doubledutch.me/api/cards"
 const templatesBaseURL = "https://stroom.doubledutch.me/api/templates"
 
 export default class CardViewUtils {
-  static dismissCard(id) {
+  static dismissCard(eventID, id) {
     return new Promise((resolve, reject) => {
       DD.requestAccessToken((err, token) => {
-        fetch(cardsBaseURL + '/' + id, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + token } }).
+        fetch(cardsBaseURL + '/' + id + '?eventID=' + eventID, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + token } }).
           then((response) => {
             // The card is deleted here
           })
@@ -20,7 +20,7 @@ export default class CardViewUtils {
     })
   }
 
-  static logCardMetric(id, data) {
+  static logCardMetric(eventID, id, data) {
     return new Promise((resolve, reject) => {
       DD.requestAccessToken((err, token) => {
         const options = {
@@ -28,7 +28,7 @@ export default class CardViewUtils {
           headers: { 'Authorization': 'Bearer ' + token },
           body: JSON.stringify(data)
         }
-        fetch(cardsBaseURL + '/' + id + '/log', options).
+        fetch(cardsBaseURL + '/' + id + '/log' + '?eventID=' + eventID, options).
           then((response) => {
             // The metric is logged here
           })
@@ -36,7 +36,7 @@ export default class CardViewUtils {
     })
   }
 
-  static updateCard(id, cardData) {
+  static updateCard(eventID, id, cardData) {
     return new Promise((resolve, reject) => {
       DD.requestAccessToken((err, token) => {
         const options = {
@@ -49,7 +49,7 @@ export default class CardViewUtils {
           body: JSON.stringify({ id: id, data: cardData })
         }
 
-        fetch(cardsBaseURL + '/' + id, options).then((response) => {
+        fetch(cardsBaseURL + '/' + id + '?eventID=' + eventID, options).then((response) => {
           // The card is updated here
           // alert(response)
         })
@@ -57,10 +57,10 @@ export default class CardViewUtils {
     })
   }
 
-  static fetchFeed() {
+  static fetchFeed(eventID) {
     return new Promise((resolve, reject) => {
       DD.requestAccessToken((err, token) => {
-        var url = cardsBaseURL
+        var url = cardsBaseURL + '?eventID=' + eventID
         fetch(url, { method: 'GET', headers: { Authorization: 'Bearer ' + token } })
           .then((response) => response.json())
           .catch((error) => {
@@ -75,7 +75,7 @@ export default class CardViewUtils {
             if (Object.keys(templateNames).length) {
               var filterPrefix = '&filter='
               var filter = filterPrefix + Object.keys(templateNames).join(filterPrefix)
-              var url = templatesBaseURL + '?' + filter
+              var url = templatesBaseURL + '?' + filter + '&eventID=' + eventID
               console.log(url)
               fetch(url, { method: 'GET', headers: { Authorization: 'Bearer ' + token } })
                 .then((response) => {

@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import ReactNative from 'react-native';
 import Update from 'react-addons-update'
 import CardViewAPI from './cardview.api'
+import EmptyCardView from './cardview.empty'
 
 React.addons = { update : Update }
 
 import Feed, { FeedCardWrapper, GET_CARD_WIDTH, CARD_MARGIN } from 'dd-feed'
 import DDView from 'dd-ddview'
 
-var DD = ReactNative.NativeModules.DDBindings
+const DD = ReactNative.NativeModules.DDBindings
+const eventID = DD.currentEvent.EventId
 
 class CardView extends Component {
   constructor() {
@@ -18,7 +20,7 @@ class CardView extends Component {
 
   componentDidMount() {
     var self = this
-    CardViewAPI.fetchFeed().then((data) => {
+    CardViewAPI.fetchFeed(eventID).then((data) => {
       var [cards, templateLoaders] = data
       var templates = {}
       templateLoaders.forEach((t) => {
@@ -29,6 +31,8 @@ class CardView extends Component {
       })
       self.setState({ data: cards, templates: templates })
     })
+
+    DD.setTitle('DoubleDutch Now')
   }
 
   onDismissCard(id) {
@@ -40,13 +44,13 @@ class CardView extends Component {
 
         // Log that the card was dismissed
         this.onLogMetric(id, { action: 'dismiss' })
-        CardViewAPI.dismissCard(id)
+        CardViewAPI.dismissCard(eventID, id)
       }
     }
   }
 
   onLogMetric(id, data) {
-    CardViewAPI.logCardMetric(id, data).then((response) => {
+    CardViewAPI.logCardMetric(eventID, id, data).then((response) => {
     })
   }
 
@@ -57,7 +61,7 @@ class CardView extends Component {
         var data = React.addons.update(this.state.data, { [i] : { data: { $set: cardData } } })
         this.setState({ data: data })
         
-        CardViewAPI.updateCard(id, cardData).then((response) => {
+        CardViewAPI.updateCard(eventID, id, cardData).then((response) => {
           // The card is updated here
           alert(response)
         })
@@ -69,8 +73,16 @@ class CardView extends Component {
 
   render() {
 
+    if (!this.state.data || !this.state.data.length) {
+      return (
+        <DDView title="">
+          <EmptyCardView />
+        </DDView>
+      )
+    }
+
     return (
-      <DDView title="DoubleDutch Now">
+      <DDView title="">
         <Feed data={this.state.data} templates={this.state.templates} onDismissCard={this.onDimissCard} onUpdateCard={this.onUpdateCard} onLog={this.onLogMetric} />
       </DDView>
     );
