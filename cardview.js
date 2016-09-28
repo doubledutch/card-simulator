@@ -26,7 +26,7 @@ class CardView extends Component {
       templateLoaders.forEach((t) => {
         var { Template } = t.loadTemplate(React, ReactNative, { Feed, FeedCardWrapper, GET_CARD_WIDTH, CARD_MARGIN }, DD)
         templates[t.id] = (id, data) => {
-          return <Template data={data} onDismiss={self.onDismissCard.bind(self, id) } onUpdate={self.onUpdateCard.bind(self, id) } onLog={self.onLogMetric.bind(self, id) } />
+          return <Template data={data} onDismiss={self.onDismissCard.bind(self, t.id, id) } onUpdate={self.onUpdateCard.bind(self, t.id, id) } onLog={self.onLogMetric.bind(self, t.id, id) } />
         }
       })
       self.setState({ data: cards, templates: templates })
@@ -35,7 +35,7 @@ class CardView extends Component {
     DD.setTitle('DoubleDutch Now')
   }
 
-  onDismissCard(id) {
+  onDismissCard(templateID, id) {
     // TODO - report back to the server that this happened
     for (var i = 0; i < this.state.data.length; ++i) {
       if (this.state.data[i].id === id) {
@@ -44,24 +44,24 @@ class CardView extends Component {
 
         // Log that the card was dismissed
         this.onLogMetric(id, { action: 'dismiss' })
-        CardViewAPI.dismissCard(eventID, id)
+        CardViewAPI.dismissCard(eventID, templateID, id)
       }
     }
   }
 
-  onLogMetric(id, data) {
-    CardViewAPI.logCardMetric(eventID, id, data).then((response) => {
+  onLogMetric(templateID, id, data) {
+    CardViewAPI.logCardMetric(eventID, templateID, id, data).then((response) => {
     })
   }
 
-  onUpdateCard(id, cardData) {
+  onUpdateCard(templateID, id, cardData) {
     // TODO - report back to the server that this happened
     for (var i = 0; i < this.state.data.length; ++i) {
       if (this.state.data[i].id === id) {
         var data = React.addons.update(this.state.data, { [i] : { data: { $set: cardData } } })
         this.setState({ data: data })
         
-        CardViewAPI.updateCard(eventID, id, cardData).then((response) => {
+        CardViewAPI.updateCard(eventID, templateID, id, cardData).then((response) => {
           // The card is updated here
           alert(response)
         })

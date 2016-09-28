@@ -9,7 +9,7 @@ const cardsBaseURL = "https://stroom.doubledutch.me/api/cards"
 const templatesBaseURL = "https://stroom.doubledutch.me/api/templates"
 
 export default class CardViewUtils {
-  static dismissCard(eventID, id) {
+  static dismissCard(eventID, templateID, id) {
     return new Promise((resolve, reject) => {
       DD.requestAccessToken((err, token) => {
         fetch(cardsBaseURL + '/' + id + '?eventID=' + eventID, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + token } }).
@@ -20,7 +20,7 @@ export default class CardViewUtils {
     })
   }
 
-  static logCardMetric(eventID, id, data) {
+  static logCardMetric(eventID, templateID, id, data) {
     return new Promise((resolve, reject) => {
       DD.requestAccessToken((err, token) => {
         const options = {
@@ -28,7 +28,7 @@ export default class CardViewUtils {
           headers: { 'Authorization': 'Bearer ' + token },
           body: JSON.stringify(data)
         }
-        fetch(cardsBaseURL + '/' + id + '/log' + '?eventID=' + eventID, options).
+        fetch(cardsBaseURL + '/' + id + '/log' + '?eventID=' + eventID + '&templateID=' + templateID, options).
           then((response) => {
             // The metric is logged here
           })
@@ -36,7 +36,7 @@ export default class CardViewUtils {
     })
   }
 
-  static updateCard(eventID, id, cardData) {
+  static updateCard(eventID, templateID, id, cardData) {
     return new Promise((resolve, reject) => {
       DD.requestAccessToken((err, token) => {
         const options = {
