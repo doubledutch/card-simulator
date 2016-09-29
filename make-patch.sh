@@ -6,3 +6,6 @@ react-native bundle --entry-file base.android.js --bundle-output /Users/nicholas
 pushd /Users/nicholasclark/git/react-native-samples
 sh make-card-patch.sh
 popd
+git add *.patch
+git commit -m "Updating card patch files"
+git push
