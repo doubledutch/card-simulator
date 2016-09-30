@@ -32,7 +32,9 @@ class CardView extends Component {
       self.setState({ data: cards, templates: templates })
     })
 
-    DD.setTitle('DoubleDutch Now')
+    // Log 
+    this.onLogMetric("base", "base", { action: 'loaded' })
+    DD.setTitle('PartyForce Now')
   }
 
   onDismissCard(templateID, id) {
@@ -43,7 +45,7 @@ class CardView extends Component {
         this.setState({ data: data })
 
         // Log that the card was dismissed
-        this.onLogMetric(id, { action: 'dismiss' })
+        this.onLogMetric(templateID, id, { action: 'dismiss' })
         CardViewAPI.dismissCard(eventID, templateID, id)
       }
     }
@@ -83,7 +85,9 @@ class CardView extends Component {
 
     return (
       <DDView title="">
+      <ReactNative.View style={{ flex: 1, backgroundColor: '#dedede' }}>
         <Feed data={this.state.data} templates={this.state.templates} onDismissCard={this.onDimissCard} onUpdateCard={this.onUpdateCard} onLog={this.onLogMetric} />
+        </ReactNative.View>
       </DDView>
     );
   }
@@ -94,7 +98,7 @@ const pstyles = ReactNative.StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#dedede',
   },
   welcome: {
     fontSize: 20,
