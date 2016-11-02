@@ -5687,10 +5687,9 @@ var newTarget=babelHelpers.extends({},this.state.target,{Notes:notes});
 this.setState({target:newTarget});
 
 this.props.api.addNote(this.state.target.Identifier,note).then(function(res){
-debugger;
 _this2.props.onTargetChange(newTarget);
 }).catch(function(err){
-debugger;
+alert(JSON.stringify(err));
 });
 }},{key:'render',value:function render()
 
