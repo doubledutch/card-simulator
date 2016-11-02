@@ -1612,6 +1612,7 @@ return _react2.default.createElement(_details2.default,{api:api,navigator:naviga
 route){
 switch(route.id){
 case'hitlist':{
+DD.setTitle('Showfloor');
 DD.setNavigationBarHidden(false,false);
 }break;
 default:{
