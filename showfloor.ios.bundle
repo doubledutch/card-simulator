@@ -5695,7 +5695,7 @@ alert(JSON.stringify(err));
 
 {var _this3=this;
 
-var status=this.state.target.CheckInDate?'Checked in at '+this.state.target.CheckInDate:'Has not arrived';
+var status=this.state.target.CheckInDate?'Arrived: '+new Date(this.state.target.CheckInDate).toLocaleTimeString():'Has not arrived';
 
 return(
 _react2.default.createElement(_reactNative.View,{style:{flex:1,backgroundColor:'#999'}},
@@ -82536,7 +82536,7 @@ scrollEnabled:this.state.scrollEnabled,
 dataSource:this.state.ds,
 renderScrollComponent:function renderScrollComponent(props){return _react2.default.createElement(_reactNative.RecyclerViewBackedScrollView,props);},
 renderRow:function renderRow(rowData,sectionID,rowID){
-var status=rowData.CheckInDate?'Checked in at '+rowData.CheckInDate:'Has not arrived';
+var status=rowData.CheckInDate?'Checked in at '+new Date(rowData.CheckInDate).toLocaleTimeString():'Has not arrived';
 var userImage=rowData.User.ImageURL&&rowData.User.ImageURL.length?_react2.default.createElement(_reactNative.Image,{source:{uri:rowData.User.ImageURL},style:{height:50,width:50}}):
 _react2.default.createElement(_reactNative.View,{style:{height:50,width:50,backgroundColor:'black',justifyContent:'center',alignItems:'center'}},
 _react2.default.createElement(_reactNative.Text,{style:{color:'white'}},'x'));
