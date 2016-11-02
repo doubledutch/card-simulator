@@ -9,8 +9,31 @@ React.addons = { update : Update }
 import Feed, { FeedCardWrapper, GET_CARD_WIDTH, CARD_MARGIN } from 'dd-feed'
 import DDView from 'dd-ddview'
 
+// const DD = ReactNative.Platform.select({
+//   ios: () => ReactNative.NativeModules.DDBindings,
+//   android: () => {
+//     var bindings = ReactNative.NativeModules.DDBindings
+//     var parsedBindings = {}
+//     Object.keys(bindings).forEach((binding) => {
+//       parsedBindings[binding] = bindings[binding]
+//     })
+//     ['currentEvent','currentUser','configuration'].forEach((key) => {
+//       parsedBindings[key] = JSON.parse(parsedBindings[key])
+//     })
+//     return parsedBindings
+//   },
+// })();
+
 const DD = ReactNative.NativeModules.DDBindings
-const eventID = DD.currentEvent.EventId
+const eventID = ReactNative.Platform.select({
+  ios: () => DD.currentEvent.EventId,
+  android: () => JSON.parse(DD.currentEvent).EventId
+})();
+
+const View = ReactNative.Platform.select({
+  ios: () => DDView,
+  android: () => ReactNative.View,
+})();
 
 class CardView extends Component {
   constructor() {
@@ -20,6 +43,10 @@ class CardView extends Component {
 
   componentDidMount() {
     var self = this
+      console.log(JSON.stringify(Object.keys(DD)))
+      console.log(JSON.stringify(DD))
+      console.log(JSON.stringify(DD.currentEvent))
+
     CardViewAPI.fetchFeed(eventID).then((data) => {
       var [cards, templateLoaders] = data
       var templates = {}
@@ -34,7 +61,7 @@ class CardView extends Component {
 
     // Log 
     this.onLogMetric("base", "base", { action: 'loaded' })
-    DD.setTitle('PartyForce Now')
+    DD.setTitle('Now')
   }
 
   onDismissCard(templateID, id) {
@@ -74,21 +101,22 @@ class CardView extends Component {
   }
 
   render() {
-
+    var { height, width } = ReactNative.Dimensions.get('window')
+    
     if (!this.state.data || !this.state.data.length) {
       return (
-        <DDView title="">
+        <View title="" style={{ flex: 1 }}>
           <EmptyCardView />
-        </DDView>
+        </View>
       )
     }
 
     return (
-      <DDView title="">
-      <ReactNative.View style={{ flex: 1, backgroundColor: '#dedede' }}>
-        <Feed data={this.state.data} templates={this.state.templates} onDismissCard={this.onDimissCard} onUpdateCard={this.onUpdateCard} onLog={this.onLogMetric} />
+      <View title="" style={{ flex: 1 }}>
+        <ReactNative.View style={{ flex: 1, backgroundColor: '#dedede' }}>
+          <Feed data={this.state.data} templates={this.state.templates} onDismissCard={this.onDimissCard} onUpdateCard={this.onUpdateCard} onLog={this.onLogMetric} />
         </ReactNative.View>
-      </DDView>
+      </View>
     );
   }
 }

@@ -1599,13 +1599,24 @@ _this2.setState({hidden:true});
 };
 }
 
-DD.setNavigationBarHidden(route.id!=='hitlist',false);
-
 switch(route.id){
-case'hitlist':
+case'hitlist':{
 return _react2.default.createElement(_hitlist2.default,{api:api,navigator:navigator});
-case'details':
-return _react2.default.createElement(_details2.default,{api:api,navigator:navigator,initialAction:route.initialAction,target:route.data,onTargetChange:route.onTargetChange});}
+}
+case'details':{
+return _react2.default.createElement(_details2.default,{api:api,navigator:navigator,initialAction:route.initialAction,target:route.data,onTargetChange:route.onTargetChange});
+}}
+
+}},{key:'navigatorWillFocus',value:function navigatorWillFocus(
+
+route){
+switch(route.id){
+case'hitlist':{
+DD.setNavigationBarHidden(false,false);
+}break;
+default:{
+DD.setNavigationBarHidden(true,false);
+}}
 
 }},{key:'resume',value:function resume()
 
@@ -1630,6 +1641,7 @@ _react2.default.createElement(View,{style:{flex:1}},
 _react2.default.createElement(Navigator,{
 initialRoute:{id:'hitlist',title:'Showfloor',index:0},
 renderScene:this.navigatorRenderScene.bind(this),
+onWillFocus:this.navigatorWillFocus.bind(this),
 style:{flex:1,paddingTop:64},
 navigationBar:
 _react2.default.createElement(Navigator.NavigationBar,{
@@ -82596,7 +82608,7 @@ API=function(){
 
 function API(eventID,userID){babelHelpers.classCallCheck(this,API);
 this.retryQueue=[];
-this.apiRootUrl='http://localhost:8383/api/';
+this.apiRootUrl='https://stroom.doubledutch.me/api/';
 this.socketConnected=false;
 this.eventID=eventID;
 this.userID=userID;
