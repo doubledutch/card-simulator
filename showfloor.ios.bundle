@@ -5657,21 +5657,27 @@ _this.state={target:_this.props.target};return _this;
 
 {
 this.props.navigator.navigateExternal('dd://profile/'+this.state.target.User.ID);
+this.props.api.log({source:'details',action:'about',target:this.state.target.Identifier});
 }},{key:'tappedActivity',value:function tappedActivity()
 
 {
 this.props.navigator.navigateExternal('dd://profile/'+this.state.target.User.ID);
+this.props.api.log({source:'details',action:'activity',target:this.state.target.Identifier});
 }},{key:'tappedMessage',value:function tappedMessage()
 
 {
 this.props.navigator.navigateExternal('dd://messages/'+this.state.target.User.ID);
+this.props.api.log({source:'details',action:'message',target:this.state.target.Identifier});
 }},{key:'tappedMeeting',value:function tappedMeeting()
 
 {
 this.props.navigator.navigateExternal('dd://profile/'+this.state.target.User.ID);
+this.props.api.log({source:'details',action:'meeting',target:this.state.target.Identifier});
 }},{key:'addNote',value:function addNote(
 
 note){var _this2=this;
+this.props.api.log({source:'details',action:'addnote',target:this.state.target.Identifier});
+
 
 
 var created=new Date().toISOString();
@@ -5730,9 +5736,9 @@ _react2.default.createElement(_reactNative.Text,{style:{flex:1,textAlign:'right'
 
 
 
-_react2.default.createElement(NotesDetailView,{initialAction:this.props.initialAction,target:this.state.target,navigator:this.props.navigator,addNote:this.addNote.bind(this)}),
-_react2.default.createElement(SalesDetailView,{target:this.state.target,navigator:this.props.navigator}),
-_react2.default.createElement(SupportDetailView,{target:this.state.target,navigator:this.props.navigator})))))));
+_react2.default.createElement(NotesDetailView,{api:this.props.api,initialAction:this.props.initialAction,target:this.state.target,navigator:this.props.navigator,addNote:this.addNote.bind(this)}),
+_react2.default.createElement(SalesDetailView,{api:this.props.api,target:this.state.target,navigator:this.props.navigator}),
+_react2.default.createElement(SupportDetailView,{api:this.props.api,target:this.state.target,navigator:this.props.navigator})))))));
 
 
 
@@ -5743,28 +5749,7 @@ _react2.default.createElement(SupportDetailView,{target:this.state.target,naviga
 }}]);return DetailView;}(_react.Component);exports.default=DetailView;var
 
 
-AddNoteDetailView=function(_Component2){babelHelpers.inherits(AddNoteDetailView,_Component2);
-function AddNoteDetailView(props){babelHelpers.classCallCheck(this,AddNoteDetailView);return babelHelpers.possibleConstructorReturn(this,(AddNoteDetailView.__proto__||Object.getPrototypeOf(AddNoteDetailView)).call(this,
-props));
-}babelHelpers.createClass(AddNoteDetailView,[{key:'componentWillMount',value:function componentWillMount()
-
-{
-}},{key:'opportunityPressed',value:function opportunityPressed(
-
-o){
-this.props.navigator.navigateExternal('https://na39.salesforce.com/'+o.Id);
-}},{key:'render',value:function render()
-
-{
-var imageUrl=DD.currentUser.ImageUrl||'https://gameday.doubledutch.me/images/no-face-2.png';
-return(
-_react2.default.createElement(_reactNative.View,{style:styles.detailCard}));
-
-
-}}]);return AddNoteDetailView;}(_react.Component);var
-
-
-SalesDetailView=function(_Component3){babelHelpers.inherits(SalesDetailView,_Component3);
+SalesDetailView=function(_Component2){babelHelpers.inherits(SalesDetailView,_Component2);
 function SalesDetailView(props){babelHelpers.classCallCheck(this,SalesDetailView);return babelHelpers.possibleConstructorReturn(this,(SalesDetailView.__proto__||Object.getPrototypeOf(SalesDetailView)).call(this,
 props));
 }babelHelpers.createClass(SalesDetailView,[{key:'componentWillMount',value:function componentWillMount()
@@ -5773,10 +5758,11 @@ props));
 }},{key:'opportunityPressed',value:function opportunityPressed(
 
 o){
+this.props.api.log({source:'details',action:'opportunityPressed',target:this.props.target.Identifier,opportunityId:o.Id});
 this.props.navigator.navigateExternal('https://na39.salesforce.com/'+o.Id);
 }},{key:'render',value:function render()
 
-{var _this6=this;
+{var _this5=this;
 var accountMap=function accountMap(account){return[
 {name:'Territory',value:account.Territory__c,type:''},
 {name:'Website',value:account.Website,type:'url'},
@@ -5800,7 +5786,7 @@ var opportunities=this.props.target.Opportunities&&this.props.target.Opportuniti
 _react2.default.createElement(_reactNative.View,null,
 _react2.default.createElement(_reactNative.Text,{style:styles.h2},'Opportunities'),
 this.props.target.Opportunities.sort(function(a,b){return a.CreatedDate<b.CreatedDate?1:-1;}).map(function(o){
-var fields=propMap(o,_this6.props.target.Account);
+var fields=propMap(o,_this5.props.target.Account);
 return(
 _react2.default.createElement(_reactNative.View,{key:o.Id},
 _react2.default.createElement(_reactNative.Text,{style:styles.h3},o.Name),
@@ -5812,7 +5798,7 @@ _react2.default.createElement(_reactNative.Text,{style:styles.value,numberOfLine
 
 
 }),
-_react2.default.createElement(_reactNative.TouchableOpacity,{onPress:function onPress(){return _this6.opportunityPressed(o);},style:styles.button},_react2.default.createElement(_reactNative.Text,{style:styles.buttonText},'View'))));
+_react2.default.createElement(_reactNative.TouchableOpacity,{onPress:function onPress(){return _this5.opportunityPressed(o);},style:styles.button},_react2.default.createElement(_reactNative.Text,{style:styles.buttonText},'View'))));
 
 
 })):
@@ -5837,7 +5823,7 @@ opportunities));
 }}]);return SalesDetailView;}(_react.Component);var
 
 
-SupportDetailView=function(_Component4){babelHelpers.inherits(SupportDetailView,_Component4);
+SupportDetailView=function(_Component3){babelHelpers.inherits(SupportDetailView,_Component3);
 function SupportDetailView(props){babelHelpers.classCallCheck(this,SupportDetailView);return babelHelpers.possibleConstructorReturn(this,(SupportDetailView.__proto__||Object.getPrototypeOf(SupportDetailView)).call(this,
 props));
 }babelHelpers.createClass(SupportDetailView,[{key:'componentWillMount',value:function componentWillMount()
@@ -5846,10 +5832,11 @@ props));
 }},{key:'opportunityPressed',value:function opportunityPressed(
 
 o){
+this.props.api.log({source:'details',action:'implementationPressed',target:this.props.target.Identifier,implementationId:o.Id});
 this.props.navigator.navigateExternal('https://na39.salesforce.com/'+o.Id);
 }},{key:'render',value:function render()
 
-{var _this8=this;
+{var _this7=this;
 var implementations=this.props.target.Implementations.sort(function(a,b){return a.Event_Date__c<b.Event_Date__c?1:-1;}).slice(0,10);
 
 var propMap=function propMap(opp){
@@ -5879,7 +5866,7 @@ _react2.default.createElement(_reactNative.Text,{style:styles.value,numberOfLine
 
 
 }),
-_react2.default.createElement(_reactNative.TouchableOpacity,{onPress:function onPress(){return _this8.opportunityPressed(o);},style:styles.button},_react2.default.createElement(_reactNative.Text,{style:styles.buttonText},'View'))));
+_react2.default.createElement(_reactNative.TouchableOpacity,{onPress:function onPress(){return _this7.opportunityPressed(o);},style:styles.button},_react2.default.createElement(_reactNative.Text,{style:styles.buttonText},'View'))));
 
 
 })));
@@ -5888,10 +5875,10 @@ _react2.default.createElement(_reactNative.TouchableOpacity,{onPress:function on
 }}]);return SupportDetailView;}(_react.Component);var
 
 
-NotesDetailView=function(_Component5){babelHelpers.inherits(NotesDetailView,_Component5);
-function NotesDetailView(props){babelHelpers.classCallCheck(this,NotesDetailView);var _this9=babelHelpers.possibleConstructorReturn(this,(NotesDetailView.__proto__||Object.getPrototypeOf(NotesDetailView)).call(this,
+NotesDetailView=function(_Component4){babelHelpers.inherits(NotesDetailView,_Component4);
+function NotesDetailView(props){babelHelpers.classCallCheck(this,NotesDetailView);var _this8=babelHelpers.possibleConstructorReturn(this,(NotesDetailView.__proto__||Object.getPrototypeOf(NotesDetailView)).call(this,
 props));
-_this9.state={showNotesModal:false};return _this9;
+_this8.state={showNotesModal:false};return _this8;
 }babelHelpers.createClass(NotesDetailView,[{key:'componentWillMount',value:function componentWillMount()
 
 {
@@ -5907,15 +5894,17 @@ o){
 this.props.navigator.navigateExternal('https://na39.salesforce.com/'+o.Id);
 }},{key:'addNoteTapped',value:function addNoteTapped()
 
-{var _this10=this;
+{var _this9=this;
+this.props.api.log({source:'details',action:'addNotePressed',target:this.props.target.Identifier});
 this.setState({showNotesModal:true,noteText:''},function(){
 setTimeout(function(){
-_this10.refs.noteTextInput.focus();
+_this9.refs.noteTextInput.focus();
 },50);
 });
 }},{key:'dismissAddNoteTapped',value:function dismissAddNoteTapped()
 
 {
+this.props.api.log({source:'details',action:'dismissNotePressed',target:this.props.target.Identifier});
 this.setState({showNotesModal:false});
 }},{key:'addNote',value:function addNote()
 
@@ -5928,7 +5917,7 @@ ev){
 this.setState({noteText:ev.nativeEvent.text});
 }},{key:'render',value:function render()
 
-{var _this11=this;
+{var _this10=this;
 var imageUrl=DD.currentUser.ImageUrl||'https://gameday.doubledutch.me/images/no-face-2.png';
 
 return(
@@ -5938,7 +5927,7 @@ _react2.default.createElement(_reactNative.View,{style:[styles.detail,{marginBot
 _react2.default.createElement(_reactNative.Text,{style:styles.label},'Goal'),
 _react2.default.createElement(_reactNative.Text,null,this.props.target.Goal)),
 
-_react2.default.createElement(_reactNative.TouchableOpacity,{onPress:function onPress(){return _this11.addNoteTapped();},style:[styles.button,{flexDirection:'row',alignItems:'center',padding:5,marginTop:0}]},
+_react2.default.createElement(_reactNative.TouchableOpacity,{onPress:function onPress(){return _this10.addNoteTapped();},style:[styles.button,{flexDirection:'row',alignItems:'center',padding:5,marginTop:0}]},
 _react2.default.createElement(_reactNative.Image,{source:{uri:imageUrl},style:{height:35,width:35,borderRadius:18,marginRight:10}}),
 _react2.default.createElement(_reactNative.Text,null,'Add an Interaction or Note...')),
 
@@ -5956,11 +5945,11 @@ _react2.default.createElement(_reactNative.KeyboardAvoidingView,{behavior:'paddi
 _react2.default.createElement(_reactNative.View,{style:{flexDirection:'column',height:200,marginTop:0,marginHorizontal:20,borderWidth:1,borderColor:DD.primaryColor,backgroundColor:'white',borderRadius:5,justifyContent:'center',alignItems:'center'}},
 _react2.default.createElement(_reactNative.TextInput,{ref:'noteTextInput',multiline:true,style:{flex:1,textAlignVertical:'top',padding:5,fontSize:14},placeholder:'Type in your notes...',value:this.state.noteText,onChange:this.noteTextChanged.bind(this)}),
 _react2.default.createElement(_reactNative.View,{style:{flexDirection:'row',paddingHorizontal:10}},
-_react2.default.createElement(_reactNative.TouchableOpacity,{style:[styles.button,{flex:1,alignItems:'center'}],onPress:function onPress(){return _this11.addNote();}},
+_react2.default.createElement(_reactNative.TouchableOpacity,{style:[styles.button,{flex:1,alignItems:'center'}],onPress:function onPress(){return _this10.addNote();}},
 _react2.default.createElement(_reactNative.Text,{style:styles.buttonText},'Add Note'))),
 
 
-_react2.default.createElement(_reactNative.TouchableOpacity,{onPress:function onPress(){return _this11.dismissAddNoteTapped();},style:{position:'absolute',top:0,right:0,height:30,width:30,borderBottomLeftRadius:5,flexDirection:'row',justifyContent:'center',alignItems:'center',backgroundColor:DD.primaryColor}},
+_react2.default.createElement(_reactNative.TouchableOpacity,{onPress:function onPress(){return _this10.dismissAddNoteTapped();},style:{position:'absolute',top:0,right:0,height:30,width:30,borderBottomLeftRadius:5,flexDirection:'row',justifyContent:'center',alignItems:'center',backgroundColor:DD.primaryColor}},
 _react2.default.createElement(_reactNative.Text,{style:{textAlign:'center'}},'\u2716\uFE0F')))))));
 
 
@@ -82462,7 +82451,9 @@ _this.state={isLoaded:false,targets:[],scrollEnabled:true,selectedTarget:null};
 var ds=new _reactNative.ListView.DataSource({rowHasChanged:function rowHasChanged(r1,r2){return true;}});
 _this.props.api.loadTargets().then(function(targets){
 _this.setState({isLoaded:true,ds:ds.cloneWithRows(targets),targets:targets});
-});return _this;
+});
+
+_this.props.api.log({source:'hitlist',action:'load'});return _this;
 }babelHelpers.createClass(HitList,[{key:'componentWillMount',value:function componentWillMount()
 
 {
@@ -82481,6 +82472,8 @@ this.setState({isLoaded:true,ds:this.state.ds.cloneWithRows(newTargets),targets:
 sectionID,rowID,data,initialAction){
 var targets=this.state.targets;
 this.setState({selectedTarget:data});
+this.props.api.log({source:'hitlist',action:'selected',target:data.Identifier});
+
 this.props.navigator.push({
 title:'Details',
 id:'details',
@@ -82515,11 +82508,13 @@ this.setState({show:true,selectedRowID:rowID,selectedRowData:rowData});
 {
 this.setState({show:false});
 this.selectRow(0,this.state.selectedRowID,this.state.selectedRowData,'note');
+this.props.api.log({source:'hitlist',action:'addnote',target:this.state.selectedRowData.Identifier});
 }},{key:'sendMessageTapped',value:function sendMessageTapped()
 
 {
 this.setState({show:false});
 this.props.navigator.navigateExternal('dd://messages/'+this.state.selectedRowData.User.ID);
+this.props.api.log({source:'hitlist',action:'message',target:this.state.selectedRowData.Identifier});
 }},{key:'render',value:function render()
 
 {var _this2=this;
@@ -82659,6 +82654,37 @@ headers:{
 body:JSON.stringify({Identifier:identifier,Note:text})};
 
 var req=fetch(_this2.apiRootUrl+'temp/salesenablement/notes?eventID='+_this2.eventID,options);
+
+req.then(function(data){
+data.json().then(function(json){
+resolve(json);
+}).catch(function(err){
+reject(err);
+});
+});
+
+req.catch(function(xhr){
+reject(xhr);
+});
+});
+
+});
+}},{key:'log',value:function log(
+
+data){var _this3=this;
+return new Promise(function(resolve,reject){
+
+DD.requestAccessToken(function(err,token){
+var options={
+method:'POST',
+headers:{
+"Authorization":'Bearer '+token,
+"X-DD-APPLICATION-ID":_this3.eventID,
+'Content-type':'application/json'},
+
+body:JSON.stringify(data)};
+
+var req=fetch(_this3.apiRootUrl+'temp/salesenablement/log?eventID='+_this3.eventID,options);
 
 req.then(function(data){
 data.json().then(function(json){
