@@ -1,5 +1,3 @@
-Base bundle: base.ios.0.33.0.bundle
-Source bundle: card-simulator.ios.bundle
 @@ -40871,36 +40871,37 @@
  );%0A__d('Project/
 -base
