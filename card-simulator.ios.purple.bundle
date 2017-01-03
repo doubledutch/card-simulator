@@ -80872,8 +80872,8 @@ var DD=_reactNative2.default.NativeModules.DDBindings;
 
 
 
-var cardsBaseURL="http://10.208.1.238:8383/api/cards";
-var templatesBaseURL="http://10.208.1.238:8383/api/templates";var
+var cardsBaseURL="https://cards.dev.dfw.doubledutch.net/api/cards";
+var templatesBaseURL="https://cards.dev.dfw.doubledutch.net/api/templates";var
 
 CardViewUtils=function(){function CardViewUtils(){babelHelpers.classCallCheck(this,CardViewUtils);}babelHelpers.createClass(CardViewUtils,null,[{key:'dismissCard',value:function dismissCard(
 eventID,templateID,id){
