@@ -80554,8 +80554,8 @@ var DD=_reactNative2.default.NativeModules.DDBindings;
 
 
 
-var cardsBaseURL="https://stroom.doubledutch.me/api/cards";
-var templatesBaseURL="https://stroom.doubledutch.me/api/templates";var
+var cardsBaseURL="https://cards.dev.dfw.doubledutch.net/api/cards";
+var templatesBaseURL="https://cards.dev.dfw.doubledutch.net/api/templates";var
 
 CardViewUtils=function(){function CardViewUtils(){babelHelpers.classCallCheck(this,CardViewUtils);}babelHelpers.createClass(CardViewUtils,null,[{key:'dismissCard',value:function dismissCard(
 id){
